@@ -102,4 +102,4 @@ def logout():
 if __name__ == '__main__':
     init_db()
     app.debug = False
-    app.run()
+    app.run(host='0.0.0.0')
