@@ -1,0 +1,33 @@
+- hosts: node1
+  gather_facts: false
+  become: true
+  tasks:
+    - name: install deps
+      dnf:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - python-flask
+    - name: fetch flaskr src
+      git:
+        repo: https://github.com/migrateup/flaskr.git
+        dest: /srv/flaskr
+        accept_hostkey: true
+      register: flask_repo
+    - name: Install init script
+      file:
+        src: /srv/flaskr/init.d/flaskr
+        dest: /etc/rc.d/init.d/flaskr
+        state: hard
+        mode: 0755
+    - name: restart only when repo is updated
+      service:
+        name: flaskr
+        state: restarted
+      when: flask_repo.changed
+    - name: start flaskr service
+      service:
+        name: flaskr
+        state: started
+        enabled: yes
+  
