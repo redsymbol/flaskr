@@ -19,7 +19,7 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 
 # configuration
 DATABASE = '/tmp/flaskr.db'
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
@@ -112,5 +112,4 @@ if __name__ == '__main__':
     if args.pidfile:
         write_pid(args.pidfile)
     init_db()
-    app.debug = False
     app.run(host='0.0.0.0')
