@@ -10,6 +10,9 @@
     :license: BSD, see LICENSE for more details.
 """
 
+import argparse
+import os
+
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, _app_ctx_stack
@@ -26,6 +29,9 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
+def write_pid(location):
+    with open(location, 'w') as pid_file:
+        pid_file.write(str(os.getpid()))
 
 def init_db():
     """Creates the database tables."""
@@ -99,7 +105,12 @@ def logout():
     return redirect(url_for('show_entries'))
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--pidfile', help='Write PID to location')
 if __name__ == '__main__':
+    args = parser.parse_args()
+    if args.pidfile:
+        write_pid(args.pidfile)
     init_db()
     app.debug = False
     app.run(host='0.0.0.0')
