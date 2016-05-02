@@ -10,7 +10,7 @@ RETVAL=0
 case "$1" in
     start)
 	echo -n "Starting Flaskr "
-	daemon python /srv/flaskr/flaskr.py --pidfile "$FLASKR_PID_FILE" > /dev/null
+	nohup python /srv/flaskr/flaskr.py --pidfile "$FLASKR_PID_FILE" > /tmp/flaskr.log 2>&1 &
 	RETVAL=$?
 	if [ $RETVAL = 0 ]; then
 	    success
@@ -21,7 +21,7 @@ case "$1" in
 	;;
     stop)
 	echo -n "Shutting down Flaskr "
-	killproc flaskr
+	kill $(cat "$FLASKR_PID_FILE")
 	RETVAL=$?
 	echo
 	;;
