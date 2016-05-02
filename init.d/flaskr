@@ -29,8 +29,12 @@ case "$1" in
 	$0 stop
 	$0 start
 	;;
+    status)
+    	status flaskr
+	RETVAL=$?
+	;;
     *)
-	echo "Usage: $0 {start|stop|restart}"
+	echo "Usage: $0 {start|stop|restart|status}"
 	exit 1
 	;;
 esac
