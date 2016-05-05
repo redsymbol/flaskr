@@ -11,7 +11,7 @@
         - python-flask
     - name: fetch flaskr src
       git:
-        repo: https://github.com/migrateup/flaskr.git
+        repo: https://github.com/redsymbol/flaskr.git
         dest: /srv/flaskr
         accept_hostkey: true
       register: flask_repo
